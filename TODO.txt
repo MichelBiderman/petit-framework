@@ -1,0 +1,35 @@
+* Fonction ressource($fichier) => "http://blablabla/ressources/$fichier" => done !
+
+************** Refaire le routeur !!!!!!!!!!!!!!!!!!!!!!!  ************************
+
+
+Routes.php -> contiendra le tableau des routes
+$routes = [
+			["route"=>"main","methode"=>"bidule","controller"=>"machin"],
+			["route"=>"main/(.)+","methode"=>"afficher","controller"=>"news",variable="id"]
+			]
+
+But : la route main/12 appellera la méthode afficher du controlleur news avec un parametre id qui vaut 12
+
+/!\ Les routes qui n'apparaissent pas dans le fichier routes.php = pas accessibles, redirection vers une page d'erreur
+Dans Routeur.php, tu vas avoir besoin : des expressions régulières
+
+En gros, tu vas devoir splitter la route (explode) en fonction des /
+Comparer ca avec la regexp du champ "route" de chaque route spécifiée dans le fichier routes.php
+
+1) Récupérer la route entrée
+2) Splitter en fonction des /
+3) Vérifier si elle colle avec une des regexp dans le champ route de chaque route
+4) Si elle colle, transmettre à Application.php une route qui contient méthode, controlleur et valeur de variable à envoyer au controlleur
+
+
+Côté Application.php : remplacer $view = $controlleurInstance->$methode();
+Par quelque chose qui permet d'envoyer une variable.
+
+Pour l'instant, on gère une seule variable !!!!
+
+
+Si tu ne t'en sors pas avec les regexp, tu mets un motif <var>
+
+main/(.)+ -> main/a ok, main/2 ok ,main/bonjour ok, main/ pas ok
+main/[0-9]+ -> main/a pas ok, main/2 ok, main/bonjour pas ok, main/ pas ok, main/28200 ok
